@@ -1,0 +1,12 @@
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://beautygo.app/sitemap.xml
+
+# Disallow sensitive areas
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /api/
+Disallow: /profile/

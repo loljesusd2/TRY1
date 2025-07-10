@@ -1,0 +1,49 @@
+
+[build]
+  command = "npm run build"
+  publish = ".next"
+  
+[build.environment]
+  NODE_VERSION = "18"
+  NEXT_TELEMETRY_DISABLED = "1"
+  NPM_FLAGS = "--production=false"
+
+# Next.js plugin for better compatibility
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+# Functions configuration for API routes
+[functions]
+  node_bundler = "esbuild"
+  external_node_modules = ["@prisma/client", "prisma"]
+
+# Redirects for Next.js App Router
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Headers for security and performance
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+[[headers]]
+  for = "/static/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Environment variables documentation
+# Required environment variables for deployment:
+# - DATABASE_URL: PostgreSQL connection string
+# - NEXTAUTH_URL: Your app's URL (e.g., https://beautygo.netlify.app)
+# - NEXTAUTH_SECRET: Random secret for NextAuth.js (generate with: openssl rand -base64 32)
+# - UPLOAD_DIR: Directory for file uploads (default: /uploads)
+# - MAX_FILE_SIZE: Maximum file size in bytes (default: 5242880 = 5MB)
+# - APP_NAME: Application name (default: BeautyGO)
+# - APP_URL: Application URL (same as NEXTAUTH_URL)
+# - PLATFORM_FEE_PERCENTAGE: Platform fee percentage (default: 20)
